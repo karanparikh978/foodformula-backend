@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="menuTemplateCtrl">
+    <head>
+        <title>{{user.name}} - Menu</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" type="image/png" href="/favicon.png">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.0/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="//code.angularjs.org/snapshot/angular-touch.js"></script>
+
+        <script type="text/javascript">
+                app = angular.module('app',['ngAnimate', 'ngTouch']);
+                app.controller('menuTemplateCtrl', ['$scope', '$sce', '$timeout', function ($scope, $sce, $timeout) {
+
+                    $('li').click(function () {
+                        $('li.li-item.active').removeClass("active");
+                        $(this).addClass("active");
+                    });
+
+                    $(document).ready(function () {
+                        $('.expand-link').click(function(){
+                            $(this).prev().hasClass('expand') ? $(this).prev().removeClass('expand') : $(this).prev().addClass('expand');
+                            $(this).text() == 'Read More' ? $(this).text('Read Less') : $(this).text('Read More');
+                        });
+                    });
+
+                    $scope.popupShow = false;
+                    $scope.recipe_images = null;
+                    $scope.categories = <%=raw @category.to_json %>;
+                    $scope.logo_image = <%=raw @logo_image.to_json %>;
+                    $scope.user = <%=raw @user.to_json %>;
+                    $scope.lang = <%=raw @lang.to_json %>;
+                    $scope.eggitarian = <%=raw @eggitarian.to_json %>;
+                    $scope.nonveg = <%=raw @nonveg.to_json %>;
+                    $scope.veg = <%=raw @veg.to_json %>;
+                    $scope.images = true;
+
+                    $scope.showRecipeInfo = function(unique_token, recipe_images, recipe_allergies, recipe_meal_types){
+                        $scope.popupShow = true;
+                        $scope.recipe_images = recipe_images;
+                        $scope.recipe_allergies = recipe_allergies;
+                        $scope.recipe_meal_types = recipe_meal_types;
+                    };
+                    $scope.closePopup = function(){
+                        $scope.popupShow = false;  
+                        $scope.recipe_images = null;
+                    };
+
+                    $scope.swipeLeft = function(){
+                        $("#myCarousel").carousel('next');
+                    }
+
+                    $scope.swipeRight = function(){
+                        $("#myCarousel").carousel('prev');
+                    }
+
+                    $scope.popContentToggle = function(val){
+                        if(val == 'images'){
+                            $scope.images = true;
+                        }
+                        else{
+                            $scope.images = false;
+                        }
+                    }
+
+                }]);
+        </script>
+        
+        <style type="text/css">
+                html, body{
+                    font-family: "Roboto";
+                }
+                .container{
+                    margin: auto;
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    padding: 0px;
+                }
+                .content{
+                    background-color: white;
+                    overflow: auto;
+                    width: 100%;
+                    height: 100%;
+                }
+                select{
+                    font-size: 12px;
+                    color: #252b32;
+                    font-family: Roboto;
+                    font-weight: 400;
+                    border: 1px solid #acacac;
+                    padding: 10px 15px;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    background-color: transparent;
+                    border-radius: 4px;
+                }
+                .form-group{
+                    margin-bottom: 10px;
+                }
+                .form-group label{
+                    font-size: 13px;
+                    line-height: 13px;
+                    color: #626262;
+                    font-family: "Roboto";
+                    font-weight: 500;
+                    margin-bottom: 10px;
+                    display: inline-block;
+                    color: #1d2e5c;
+                }
+                .header-container{
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    padding: 10px 10px 0px 10px;
+                }
+                .header-container .header-info{
+                    margin-left:10px;
+                }
+                .header-container .header-info h3{
+                    margin: 0;
+                    color: #14bf98;
+                    font-weight: 200;
+                }
+                .filter-div{
+                    padding: 0px 10px 10px 10px;
+                }
+                .filter-div .filter-items{
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                }
+                .filter-div .filter-items .form-group{ 
+                    margin-right: 10px;
+                    flex: 1;
+                }
+                .filter-div .filter-items .form-group:last-child{
+                    margin-right: 0px;
+                } 
+                .filter-div .info-text{
+                    font-size: 12px;
+                    color: #32d032;
+                    line-height: 12px;
+                }
+                .img-container{
+                    width: 120px;
+                    height: 120px;
+                }
+                .img-container img{
+                    border-radius: 5px;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+                .tal {
+                    text-align: left;
+                }
+                .tar {
+                    text-align: right;
+                }
+                .pop-up {
+                    position: fixed;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    display: flex;
+                    z-index: 9999;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s;
+
+                    top: unset;
+                    bottom: 0;
+                    flex-direction: column;
+                }
+                .popup-box {
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    box-shadow: 0px 3px 13px rgba(0, 0, 0, 0.41);
+                    background-color: #ffffff;
+                    margin: 0 auto;
+                    padding: 0; 
+                    bottom: 0;
+                    width: 100%;
+                    position: absolute;
+                    height: 60%;
+                    overflow: auto;
+                    transition: all 0.5s;
+                    transform : translate(0, 100vh);
+                }
+                .pop-up-pad {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .pop-up-content{
+                    text-align: center;
+                    flex: 1;
+                    overflow: auto;
+                    padding: 0px 20px 20px;
+                }
+                .pop-up-content iframe{
+                    width: 100%;
+                }
+                .pop-up-content .recipe-img-container{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                .is-open .popup-box{
+                    transform: translate(0, 0);
+                }
+                .popup-bg{
+                    background: rgba(0, 0, 0, 0.7);
+                    height: 100%;
+                    opacity: 0;
+                    transition: all 0.5s;
+                    width: 100%;
+                }
+                .is-open .popup-bg{
+                    opacity: 1;
+                }
+                .pop-up-nav{
+                    margin-bottom: 20px;
+                    padding: 35px 35px 0px 35px;
+                    background: #edf8fd;
+                    box-shadow: 0 1px 0 #c3dde8;
+                    z-index: 9;
+                    height: 65px;
+                }
+                .pop-up-nav ul{
+                    display: flex;
+                    list-style-type: none;
+                }
+                .pop-up-nav ul li{
+                    margin-right: 20px;
+                    color: #47545b;
+                    font-size: 15px;
+                    font-weight: 400;
+                    padding-bottom: 10px;
+                    cursor: pointer;
+                }
+                .pop-up-nav ul li:last-child{
+                    margin-right: 0px;
+                }
+                .pop-up-nav .active{
+                    color: #15242D;
+                    font-weight: 700;
+                    border-bottom: 2px solid #15242D;
+                }
+                .pop-up-content .recipe-img-container img{
+                    max-height: 200px;
+                    border-radius: 10px;
+                    object-fit: contain;
+                    display: unset;
+                    width: unset !important;
+                }
+                .pop-up-content .empty-text{
+                    color: #d66614;
+                    font-size: 20px;
+                    margin-bottom: 0px;
+                }
+                .slide{
+                    padding: 0px;
+                    min-height: unset;
+                }
+                .slide, .container .hero-banner{
+                    min-height: unset;
+                }
+                .carousel-indicators li{
+                    margin-right: 10px !important;
+                    border: 1px solid;
+                }
+                .carousel-indicators li:last-child{
+                    margin-right: 0px !important;
+                }
+                .carousel-control.right, .carousel-control.left{
+                    background-image: unset;
+                }
+                .carousel-indicators{
+                    bottom: -40px;
+                }
+                .carousel-indicators .active{
+                    background-color: black;
+                }
+                .loader {
+                    border: 5px solid #f3f3f3;
+                    border-radius: 50%;
+                    border-top: 5px solid #1d2e5c;
+                    width: 70px;
+                    height: 70px;
+                    -webkit-animation: spin 2s linear infinite;
+                    animation: spin 2s linear infinite;
+                }
+                @-webkit-keyframes spin {
+                    0% { -webkit-transform: rotate(0deg); }
+                    100% { -webkit-transform: rotate(360deg); }
+                }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @media only screen and (max-width: 320px) {
+                    .category-title {
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                    .recipe-name {
+                        font-size: 12px;
+                    }
+                    .img-container {
+                        width: 100px;
+                        height: 100px;
+                    }
+                }
+                .category-box{
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 20px;
+                }
+                .category-box:last-child{
+                    margin-bottom: 0px;
+                }
+                .category-box .category-title{
+                    margin: 0px 0px 10px 0px;
+                    font-size: 18px;
+                    padding: 0px 0px 0px 10px;
+                    text-transform: capitalize;
+                    color: #1d2e5c;
+                    text-align: left;
+                }
+                .recipe-box{
+                    display: flex;
+                    padding: 10px;
+                    margin-bottom: 15px;
+                }
+                .recipe-box:last-child{
+                    margin-bottom: 0px;
+                }
+                .recipe-box:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+                .recipe-box .recipe-thumbnail-box{
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid #1d2e5c7a;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+                .recipe-box .recipe-thumbnail-box img{
+                    object-fit: contain;
+                    height: 100%;
+                    width: 100%;
+                }
+                .recipe-box .recipe-info{
+                    margin-left: 10px;
+                    flex: 1;
+                }
+                .recipe-box .recipe-info .recipe-name{
+                    margin: 0px 0px 10px 0px;
+                    padding: 0;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 1.2;
+                    display: flex;
+                    align-items: center;
+                }
+                .recipe-box .recipe-info .recipe-name:active{
+                    color:#1d2e5c;
+                }
+                .recipe-box .recipe-info .recipe-name .food-type{
+                    font-size: 14px;
+                    color: #32d032;
+                    font-weight: 400;
+                }
+                .recipe-box .recipe-info h5{
+                    margin: 0px 0px 10px 0px;
+                    padding: 0;
+                    font-weight: 300;
+                }
+                .recipe-box .recipe-info .ingredients-info{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .recipe-box .recipe-info .ingredients-info .smalldesc{
+                    margin: 0px 0px 10px 0px;
+                    font-size: 10px;
+                    line-height: 15px;
+                    text-transform: capitalize;
+                    color: #333333;
+                    max-height: 52px;
+                    overflow: hidden;
+                    transition: all .5s ease-in-out;
+                }
+                .recipe-box .recipe-info .expand-link{
+                    font-size: 12px;
+                    text-decoration: none;
+                    text-align: right;
+                }
+                .recipe-box .recipe-info .ingredients-info .smalldesc.expand {
+                    max-height: 250px;
+                }
+                .detail-container{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-bottom: 10px;
+                }
+                .detail-container h4{
+                    color: #113448;
+                    font-size: 16px;
+                    padding: 0px;
+                    margin-bottom: 10px;
+                }
+                .item-container{
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                }
+                .item-container span{
+                    padding: 5px 10px;
+                    background-color: #14bf98;
+                    color: #fff;
+                    border-radius: 20px;
+                    margin: 0px 10px 10px 0px;
+                    font-size: 12px;
+                }
+                .item-container span:last-child{
+                    margin-right: 0px;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="content">
+                <header class="header-container">
+                    <div class="img-container">
+                        <img src="{{logo_image['url']}}" class="restaurant-logo" alt="{{user.name}}" ng-if="logo_image"/>
+                    </div>
+                    <div class="header-info">
+                        <h3>{{user.name}}</h3>
+                    </div>
+                </header>
+                <div class="filter-div">
+                    <div class="filter-items">
+                        <div class="form-group">
+                            <select ng-model="catId">
+                                <option value="" selected="selected">What do you want to eat ?</option>
+                                <option ng-value="{{ cat.id }}" value="{{ cat.id }}" ng-repeat="cat in categories">{{ cat.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select ng-model="foodType">
+                                <option value="" selected="selected">Select Food type</option>
+                                <option ng-value="1">Vegetarian</option>
+                                <option ng-value="2">Non-Veg</option>
+                                <option ng-value="3">eggitarian</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-text">Click on the recipe to see its images and details</div>
+                </div>
+                <div>
+                    <div ng-repeat="category in categories | filter:(!!catId || undefined) && {id: catId}  track by $index" class="category-box">
+                        <h2 class="category-title">{{category.name}}</h2>
+                        <div ng-repeat="recipe in category.recipes | filter:(!!foodType || undefined) && {recipe_type: foodType}  track by $index" class="recipe-box">
+                            <div class="recipe-thumbnail-box" ng-click="showRecipeInfo(recipe.unique_token, recipe.recipe_images, recipe.allergies, recipe.meal_types)">
+                                <img src="{{recipe.recipe_images ? recipe.recipe_images[0]['url'] : ''}}" ng-if="recipe.recipe_images.length > 0">
+                            </div>
+                            <div class="recipe-info">
+                                <h3 class="recipe-name {{lang == 'ar' ? 'tar' : 'tal'}}" ng-click="showRecipeInfo(recipe.unique_token, recipe.recipe_images, recipe.allergies, recipe.meal_types)">
+                                    <span>{{recipe.name}}&nbsp;&nbsp;</span>
+                                    <span class="food-type" ng-if="recipe.recipe_type == 1"><img src="{{veg}}"></span>
+                                    <span class="food-type" ng-if="recipe.recipe_type == 2"><img src="{{nonveg}}"></span>
+                                    <span class="food-type" ng-if="recipe.recipe_type == 3"><img src="{{eggitarian}}"></span>
+                                </h3>
+                                <h5 class="{{lang == 'ar' ? 'tar' : 'tal'}}">{{recipe.price > 0 ? (recipe.price +" "+ recipe.currency) : "NA"}} | {{ recipe.serving_weight}} gm</h5>
+                                <div class="ingredients-info {{lang == 'ar' ? 'tar' : 'tal'}}">
+                                    <p class="smalldesc" ng-click="showRecipeInfo(recipe.unique_token, recipe.recipe_images, recipe.allergies, recipe.meal_types)">{{recipe.ingredients_info}}</p>
+                                    <a class="expand-link">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pop-up" ng-class="{'is-open' : popupShow}" ng-show="popupShow">
+                <div class="popup-bg" ng-click="closePopup()">
+                </div>
+                <div class="popup-box">
+                    <div class="pop-up-pad">
+                        <div class="pop-up-nav">
+                            <ul>
+                                <li class="li-item active" ng-click="popContentToggle('images')">Images</li>
+                                <li class="li-item" ng-click="popContentToggle('facts')">Other Imformation</li>
+                            </ul>
+                        </div>
+                        <div class="pop-up-content">  
+                            <div ng-if="images == false">
+                                <div class="detail-container">
+                                    <h4>Allergies</h4>
+                                    <div class="item-container">
+                                        <span ng-repeat="allergy in recipe_allergies">{{allergy}}</span>
+                                    </div>
+                                </div>
+                                <div class="detail-container">
+                                    <h4>Meal Type</h4>
+                                    <div class="item-container">
+                                        <span ng-repeat="meal_type in recipe_meal_types">{{meal_type}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recipe-img-container" ng-if="images == true">
+                                <h1 class="empty-text" ng-if="recipe_images.length == 0">Images not available!</h1>
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel" ng-if="recipe_images.length > 0" ng-swipe-left="swipeLeft()" ng-swipe-right="swipeRight()">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#myCarousel" ng-class="{'active':$index == 0}" ng-repeat="img in recipe_images" data-slide-to="{{$index}}"></li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        <div class="item" ng-repeat="img in recipe_images" ng-class="{'active':$index == 0}">
+                                            <img src="{{img['url']}}" style="width:100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="loader" ng-if="labelLoader"></div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

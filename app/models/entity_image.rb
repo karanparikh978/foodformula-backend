@@ -1,0 +1,2 @@
+class EntityImage < ApplicationRecord
+end

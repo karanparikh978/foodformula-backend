@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  mobile_no: 
+  email: MyString
+  order_time: 2021-06-26 12:55:08
+  restaurant_id: 1
+  status_id: 1
+  instruction: MyString
+
+two:
+  name: MyString
+  mobile_no: 
+  email: MyString
+  order_time: 2021-06-26 12:55:08
+  restaurant_id: 1
+  status_id: 1
+  instruction: MyString

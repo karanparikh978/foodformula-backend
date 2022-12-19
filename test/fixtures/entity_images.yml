@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  entity_type: 1
+  entity_type_id: 1
+  url: MyString
+  status_id: 1
+  status_id: 1
+
+two:
+  entity_type: 1
+  entity_type_id: 1
+  url: MyString
+  status_id: 1
+  status_id: 1

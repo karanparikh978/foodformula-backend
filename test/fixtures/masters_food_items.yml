@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  restaurant_id: 1
+  status_id: 1
+  category_id: 1
+  ingredients: MyString
+  type: 1
+  total_cooked_weight: 1
+  serving_description: MyString
+  per_serving_weight: 1
+  per_serving_cost_price: 1
+  per_serving_selling_price: 1
+  cooking_info: MyString
+  allergies_info: MyString
+
+two:
+  name: MyString
+  restaurant_id: 1
+  status_id: 1
+  category_id: 1
+  ingredients: MyString
+  type: 1
+  total_cooked_weight: 1
+  serving_description: MyString
+  per_serving_weight: 1
+  per_serving_cost_price: 1
+  per_serving_selling_price: 1
+  cooking_info: MyString
+  allergies_info: MyString
